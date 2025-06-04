@@ -1,0 +1,38 @@
+name: Build VV
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y cmake build-essential ninja-build
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v4
+
+      - name: Build VTK
+        run: |
+          git clone --branch v9.5.0.rc2 --depth 1 https://gitlab.kitware.com/vtk/vtk.git
+          cmake -S vtk -B vtk-build -GNinja -DCMAKE_BUILD_TYPE=Release -DVTK_MODULE_ENABLE_VTK_GUISupportQt=YES
+          cmake --build vtk-build
+          
+      - name: Build ITK
+        run: |
+          git clone --branch v6.0a03 --depth 1 https://github.com/InsightSoftwareConsortium/ITK.git
+          cmake -S ITK -B ITK-build -GNinja -DCMAKE_BUILD_TYPE=Release -DModule_ITKVtkGlue=ON -DModule_RTK=ON -DBUILD_TESTING=OFF
+          cmake --build ITK-build
+
+      - name: Build
+        run: |
+          cmake -S . -B vv-build -GNinja -DCMAKE_BUILD_TYPE=Release -DVTK_DIR=vtk-build -DITK_DIR=ITK-build
+          cmake --build build
