@@ -73,6 +73,7 @@ find_package(VTK 9.5 REQUIRED COMPONENTS
   IOXML
   RenderingAnnotation
   RenderingContext2D
+  RenderingContextOpenGL2
   RenderingCore
   RenderingLOD
   RenderingOpenGL2

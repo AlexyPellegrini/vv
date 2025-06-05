@@ -27,13 +27,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt update
-          sudo apt install -y cmake build-essential ninja-build gengetopt
-
-      - name: Install dependencies for Mac
-        if: matrix.os == 'macos-14'
-        run: |
-          brew update
-          brew install gengetopt
+          sudo apt install -y cmake build-essential ninja-build
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
@@ -62,10 +56,10 @@ jobs:
       - name: Build ITK
         run: |
           git clone --branch ${{ env.ITK_TAG }} --depth 1 https://github.com/InsightSoftwareConsortium/ITK.git itk-src
-          cmake -S itk-src -B itk-build -GNinja -DCMAKE_BUILD_TYPE=Release -DModule_ITKVtkGlue=ON -DModule_RTK=ON -DBUILD_TESTING=OFF -DVTK_DIR="${{ env.VTK_DIR }}" -DCMAKE_PREFIX_PATH="${{ env.CMAKE_PREFIX_PATH }}"
+          cmake -S itk-src -B itk-build -GNinja -DCMAKE_BUILD_TYPE=Release -DModule_ITKVtkGlue=ON -DModule_RTK=ON -DBUILD_TESTING=OFF -DVTK_DIR:PATH="${{ env.VTK_DIR }}" -DCMAKE_PREFIX_PATH="${{ env.CMAKE_PREFIX_PATH }}"
           cmake --build "${{ env.ITK_DIR }}"
 
       - name: Build
         run: |
-          cmake -S . -B vv-build -GNinja -DCMAKE_BUILD_TYPE=Release -DVTK_DIR="${{ env.VTK_DIR }}" -DITK_DIR="${{ env.ITK_DIR }}" -DCMAKE_PREFIX_PATH="${{ env.CMAKE_PREFIX_PATH }}"
+          cmake -S . -B vv-build -GNinja -DCMAKE_BUILD_TYPE=Release -DVTK_DIR:PATH="${{ env.VTK_DIR }}" -DITK_DIR:PATH="${{ env.ITK_DIR }}" -DCMAKE_PREFIX_PATH="${{ env.CMAKE_PREFIX_PATH }}"
           cmake --build vv-build
