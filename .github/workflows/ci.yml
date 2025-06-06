@@ -94,3 +94,13 @@ jobs:
         run: |
           cmake -S . -B vv-build -GNinja -DCMAKE_BUILD_TYPE=Release -DVTK_DIR:PATH="${{ env.VTK_DIR }}" -DITK_DIR:PATH="${{ env.ITK_DIR }}" -DCMAKE_PREFIX_PATH="${{ env.CMAKE_PREFIX_PATH }}"
           cmake --build vv-build
+
+      - name: Package
+        run: |
+          cmake --build vv-build --target package
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vv-package-${{ matrix.os }}
+          path: vv-build/vv-*
