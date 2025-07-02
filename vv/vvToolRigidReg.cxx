@@ -175,9 +175,10 @@ bool vvToolRigidReg::close()
 {
   QString warning = "Are you sure you want to reset the original transform?";
   QMessageBox msgBox(QMessageBox::Warning, tr("Reset transform"),warning, QMessageBox::NoButton, this);
-  msgBox.addButton(tr("Yes"), QMessageBox::AcceptRole);
+  auto* yes = msgBox.addButton(tr("Yes"), QMessageBox::AcceptRole);
   msgBox.addButton(tr("No"), QMessageBox::RejectRole);
-  if (msgBox.exec() == QMessageBox::AcceptRole) {
+  msgBox.exec();
+  if (msgBox.clickedButton() == yes) {
     if (mCurrentSlicerManager)
         SetTransform(mInitialMatrix);
     return vvToolWidgetBase::close();
@@ -388,8 +389,9 @@ void vvToolRigidReg::SetTransform(vtkMatrix4x4 *matrix)
   } catch (itk::ExceptionObject) {
     QString warning = "The matrice is a non-orthogonal rotation matrix.\nThe manual registration doesn't work.";
     QMessageBox msgBox(QMessageBox::Warning, tr("Reset transform"),warning, QMessageBox::NoButton, this);
-    msgBox.addButton(tr("OK"), QMessageBox::AcceptRole);
-    if (msgBox.exec() == QMessageBox::AcceptRole) {
+    auto* ok = msgBox.addButton(tr("OK"), QMessageBox::AcceptRole);
+    msgBox.exec();
+    if (msgBox.clickedButton() == ok) {
         //SetTransform(mInitialMatrix);
         vvToolWidgetBase::close();
     }

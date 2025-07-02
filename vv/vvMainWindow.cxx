@@ -1660,9 +1660,10 @@ void vvMainWindow::CloseImage(QTreeWidgetItem* item, int column)
     warning += item->data(COLUMN_IMAGE_NAME,Qt::DisplayRole).toString();
     QMessageBox msgBox(QMessageBox::Warning, tr("Close Overlay"),
       warning, QMessageBox::NoButton, this);
-    msgBox.addButton(tr("Close"), QMessageBox::AcceptRole);
+    auto* close = msgBox.addButton(tr("Close"), QMessageBox::AcceptRole);
     msgBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
-    if (msgBox.exec() == QMessageBox::AcceptRole) {
+    msgBox.exec();
+    if (msgBox.clickedButton() == close) {
       std::string overlay_type=item->data(1,Qt::UserRole).toString().toStdString();
       int overlay_index=0;
       for (int child = 0; child < DataTree->topLevelItem(index)->childCount(); child++) {
@@ -1697,9 +1698,10 @@ void vvMainWindow::CloseImage(QTreeWidgetItem* item, int column)
     warning += "\nThis is the last image, you're about to close vv !!!";
     QMessageBox msgBox(QMessageBox::Warning, tr("Close Image"),
       warning, QMessageBox::NoButton, this);
-    msgBox.addButton(tr("Close vv"), QMessageBox::AcceptRole);
+    auto* close = msgBox.addButton(tr("Close"), QMessageBox::AcceptRole);
     msgBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
-    if (msgBox.exec() == QMessageBox::AcceptRole) {
+    msgBox.exec();
+    if (msgBox.clickedButton() == close) {
       this->close();
     }
   } else {
@@ -1707,9 +1709,10 @@ void vvMainWindow::CloseImage(QTreeWidgetItem* item, int column)
     warning += item->data(COLUMN_IMAGE_NAME,Qt::DisplayRole).toString();
     QMessageBox msgBox(QMessageBox::Warning, tr("Close Image"),
       warning, QMessageBox::NoButton, this);
-    msgBox.addButton(tr("Close"), QMessageBox::AcceptRole);
+    auto* close = msgBox.addButton(tr("Close"), QMessageBox::AcceptRole);
     msgBox.addButton(tr("Cancel"), QMessageBox::RejectRole);
-    if (msgBox.exec() == QMessageBox::AcceptRole) {
+    msgBox.exec();
+    if (msgBox.clickedButton() == close) {
 
       // Tell tools that we close an image
       emit AnImageIsBeingClosed(mSlicerManagers[index]);
@@ -2907,9 +2910,10 @@ void vvMainWindow::SaveAs()
           if( !bId ) {
             QString warning = "The image has an associated linear transform. Do you want to save it along?";
             QMessageBox msgBox(QMessageBox::Warning, tr("Save transform"), warning, QMessageBox::NoButton, this);
-            msgBox.addButton(tr("Yes"), QMessageBox::AcceptRole);
+            auto* yes = msgBox.addButton(tr("Yes"), QMessageBox::AcceptRole);
             msgBox.addButton(tr("No"), QMessageBox::RejectRole);
-            if (msgBox.exec() == QMessageBox::AcceptRole)
+            msgBox.exec();
+            if (msgBox.clickedButton() == yes)
               writer->SetSaveTransform(true);
           }
 
@@ -3486,9 +3490,10 @@ void vvMainWindow::SaveScreenshot(QVTKWidget *widget)
       // Dithering
       QString msg = "Would you like to activate dithering?";
       QMessageBox msgBox(QMessageBox::Question, tr("Dithering"),msg, QMessageBox::NoButton, this);
-      msgBox.addButton(tr("Yes"), QMessageBox::AcceptRole);
+      auto* yes = msgBox.addButton(tr("Yes"), QMessageBox::AcceptRole);
       msgBox.addButton(tr("No"), QMessageBox::RejectRole);
-      gif->SetDither(msgBox.exec() == QMessageBox::AcceptRole);
+      msgBox.exec();
+      gif->SetDither(msgBox.clickedButton() == yes);
     }
 #ifdef VTK_USE_VIDEO_FOR_WINDOWS
     if (ext==".avi") {
