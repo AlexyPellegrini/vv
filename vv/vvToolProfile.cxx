@@ -323,7 +323,8 @@ void vvToolProfile::computeProfile()
     
     this->ProfileWidget->renderWindow()->GetRenderers()->RemoveAllItems();
     this->ProfileWidget->renderWindow()->AddRenderer(mView->GetRenderer());
-    ProfileWidget->show();
+    this->ProfileWidget->renderWindow()->Render(); // force render once to initialize renderer
+    this->ProfileWidget->show();
     
     QApplication::restoreOverrideCursor();
 }
