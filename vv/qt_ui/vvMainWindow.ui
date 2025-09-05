@@ -651,12 +651,12 @@
            <number>2</number>
           </property>
           <item row="0" column="0">
-           <widget class="QVTKOpenGLNativeWidget" name="NOViewWidget" native="true">
+           <widget class="QVTKOpenGLNativeWidget2" name="NOViewWidget" native="true">
             <property name="mouseTracking">
              <bool>true</bool>
             </property>
             <property name="focusPolicy">
-             <enum>Qt::FocusPolicy::TabFocus</enum>
+             <enum>Qt::FocusPolicy::StrongFocus</enum>
             </property>
            </widget>
           </item>
@@ -694,12 +694,12 @@
            <number>2</number>
           </property>
           <item row="0" column="0">
-           <widget class="QVTKOpenGLNativeWidget" name="SOViewWidget" native="true">
+           <widget class="QVTKOpenGLNativeWidget2" name="SOViewWidget" native="true">
             <property name="mouseTracking">
              <bool>true</bool>
             </property>
             <property name="focusPolicy">
-             <enum>Qt::FocusPolicy::TabFocus</enum>
+             <enum>Qt::FocusPolicy::StrongFocus</enum>
             </property>
            </widget>
           </item>
@@ -739,12 +739,12 @@
            <number>2</number>
           </property>
           <item row="0" column="0">
-           <widget class="QVTKOpenGLNativeWidget" name="NEViewWidget" native="true">
+           <widget class="QVTKOpenGLNativeWidget2" name="NEViewWidget" native="true">
             <property name="mouseTracking">
              <bool>true</bool>
             </property>
             <property name="focusPolicy">
-             <enum>Qt::FocusPolicy::TabFocus</enum>
+             <enum>Qt::FocusPolicy::StrongFocus</enum>
             </property>
            </widget>
           </item>
@@ -779,7 +779,7 @@
            <number>2</number>
           </property>
           <item row="0" column="0">
-           <widget class="QVTKOpenGLNativeWidget" name="SEViewWidget" native="true">
+           <widget class="QVTKOpenGLNativeWidget2" name="SEViewWidget" native="true">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
               <horstretch>0</horstretch>
@@ -790,7 +790,7 @@
              <bool>true</bool>
             </property>
             <property name="focusPolicy">
-             <enum>Qt::FocusPolicy::TabFocus</enum>
+             <enum>Qt::FocusPolicy::StrongFocus</enum>
             </property>
            </widget>
           </item>
@@ -1297,9 +1297,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QVTKOpenGLNativeWidget</class>
+   <class>QVTKOpenGLNativeWidget2</class>
    <extends>QWidget</extends>
-   <header>QVTKOpenGLNativeWidget.h</header>
+   <header>QVTKOpenGLNativeWidget2.h</header>
   </customwidget>
   <customwidget>
    <class>vvInfoPanel</class>
