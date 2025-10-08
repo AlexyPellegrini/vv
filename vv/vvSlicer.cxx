@@ -59,6 +59,7 @@
 #include <vtkScalarBarActor.h>
 #include <vtkImageProperty.h>
 #include <vtkLookupTable.h>
+#include <vtkRenderStepsPass.h>
 
 #include <vtkRenderer.h>
 #include <vtkRendererCollection.h>
@@ -158,6 +159,8 @@ vvSlicer::vvSlicer()
   showFusionLegend = false;
 
   this->InstallPipeline();
+
+  this->GetRenderer()->UseOITOff();
 
   mLinkOverlayWindowLevel = true;
   mImageVisibility = true;
@@ -1758,14 +1761,11 @@ void vvSlicer::Render()
     crossCursor->Update();
   }
 #else
-    vtkSmartPointer<vtkOpenGLImageSliceMapper> mapperOpenGL= vtkSmartPointer<vtkOpenGLImageSliceMapper>::New();
-    try {
-        mapperOpenGL = dynamic_cast<vtkOpenGLImageSliceMapper*>(GetImageActor()->GetMapper());
-    } catch (const std::bad_cast& e) {
-		std::cerr << e.what() << std::endl;
-		std::cerr << "Conversion error" << std::endl;
-		return;
-	}
+    auto* mapperOpenGL = vtkImageSliceMapper::SafeDownCast(GetImageActor()->GetMapper());
+    if(!mapperOpenGL) {
+	    std::cerr << "Conversion error" << std::endl;
+	    return;
+	  }
 
     if (xCursor >= mapperOpenGL->GetCroppingRegion()[0]-0.5 &&
         xCursor < mapperOpenGL->GetCroppingRegion()[1]+0.5 &&
